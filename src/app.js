@@ -2,15 +2,20 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ProjectPicker from './components/ProjectPicker';
 
 const App = React.createClass({
     render() {
       return (
         <div>
-          <p>hello, react world!</p>
+          {this.props.children}
         </div>
       )
     }
 });
 
-ReactDOM.render(<App />, document.getElementById('content'));
+ReactDOM.render((
+  <App>
+    <ProjectPicker />
+  </App>
+), document.getElementById('content'));
