@@ -1,21 +1,29 @@
-'use strict';
-
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import ProjectPicker from './components/ProjectPicker';
+import LocalRepositoriesList from './components/LocalRepositoriesList';
 
 const App = React.createClass({
-    render() {
-      return (
-        <div>
-          {this.props.children}
-        </div>
-      )
-    }
+  propTypes: {
+    children: PropTypes.object
+  },
+  render() {
+    return (
+      <div>
+        {this.props.children}
+      </div>
+    );
+  }
 });
+
+const state = {
+  repositories: [
+    { localPath: '/Users/Gabriel/git/codiff', remoteOrigin: 'git@github.com' },
+    { localPath: '/Users/Gabriel/git/codiff', remoteOrigin: 'git@github.com' }
+  ]
+};
 
 ReactDOM.render((
   <App>
-    <ProjectPicker />
+    <LocalRepositoriesList repositories={state.repositories}/>
   </App>
 ), document.getElementById('content'));
