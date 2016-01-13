@@ -2,8 +2,11 @@
   "extends": "airbnb",
   "rules": {
     "comma-dangle": 0,
+    "curly": 0,
+    "no-param-reassign": 0,
+    "space-after-keywords": 0,
     "react/jsx-no-bind": 0,
-    "react/no-multi-comp": 0,
     "react/prefer-es6-class": 0,
+    "react/jsx-closing-bracket-location": 0,
   }
 }
