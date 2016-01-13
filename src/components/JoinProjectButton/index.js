@@ -11,7 +11,8 @@ const ProjectJoinButton = React.createClass({
       isPrivate: PropTypes.bool.isRequired,
       isJoining: PropTypes.bool.isRequired,
       hasJoined: PropTypes.bool.isRequired
-    })
+    }),
+    repository: PropTypes.object.isRequired
   },
   contextTypes: {
     onJoinProject: PropTypes.func
@@ -46,7 +47,7 @@ const ProjectJoinButton = React.createClass({
           <button
             style={this.style.joinButton}
             disabled={isJoining || hasJoined}
-            onClick={() => onJoinProject(this.props.project)}>
+            onClick={() => onJoinProject(this.props.repository, this.props.project)}>
             {buttonText}
           </button>
         </div>

@@ -8,18 +8,23 @@ const LocalRepositoriesList = React.createClass({
       localPath: PropTypes.string.isRequired,
       remoteOrigin: PropTypes.string.isRequired
     })).isRequired,
-    onJoinProject: PropTypes.func
+    onJoinProject: PropTypes.func,
+    onCreateProject: PropTypes.func
   },
   childContextTypes: {
-    onJoinProject: PropTypes.func
+    onJoinProject: PropTypes.func,
+    onCreateProject: PropTypes.func
   },
   getChildContext() {
     return {
-      onJoinProject: (p) => {
+      onCreateProject: (repo) => {
+        this.props.onCreateProject(repo);
+      },
+      onJoinProject: (repo, project) => {
         if(!this.props.onJoinProject)
           return;
 
-        this.props.onJoinProject(p);
+        this.props.onJoinProject(repo, project);
       }
     };
   },
@@ -33,7 +38,7 @@ const LocalRepositoriesList = React.createClass({
       <li className="list-group-item" key={index}>
         <LocalRepositoryListItem
           key={index}
-          {...repo}
+          repository={repo}
         />
       </li>
     ));

@@ -1,21 +1,27 @@
 import React, { PropTypes } from 'react';
 
 import JoinProjectButton from '../JoinProjectButton';
+import CreateProjectButton from '../CreateProjectButton';
 
 const LocalRepositoryListItem = React.createClass({
   propTypes: {
-    projects: PropTypes.array.isRequired,
-    localPath: PropTypes.string.isRequired,
-    remoteOrigin: PropTypes.string.isRequired
+    repository: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      projects: PropTypes.array.isRequired,
+      localPath: PropTypes.string.isRequired,
+      remoteOrigin: PropTypes.string.isRequired
+    })
   },
   render() {
-    const buttons = this.props.projects.map((p, index) => (
-      <JoinProjectButton key={index} project={p} />
+    const { repository } = this.props;
+    const buttons = repository.projects.map((p, index) => (
+      <JoinProjectButton key={index} project={p} repository={repository} />
     ));
     return (
       <div>
-        <h4>{this.props.remoteOrigin} ({this.props.localPath})</h4>
+        <h3>{repository.name} ({repository.remoteOrigin})</h3>
         {buttons}
+        <CreateProjectButton repository={repository} />
       </div>
     );
   }

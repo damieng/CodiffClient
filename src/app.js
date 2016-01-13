@@ -7,6 +7,7 @@ const App = React.createClass({
     return {
       repositories: [
         {
+          name: 'codiff',
           localPath: '/Users/gisenberg/git/codiff',
           remoteOrigin: 'git@github.com:gisenberg/codiff',
           projects: [
@@ -16,6 +17,7 @@ const App = React.createClass({
           ]
         },
         {
+          name: 'codiff-react',
           localPath: '/Users/gisenberg/git/codiff-react',
           remoteOrigin: 'git@github.com:gisenberg/codiff-react',
           projects: [
@@ -26,7 +28,13 @@ const App = React.createClass({
       ]
     };
   },
-  joinProject(project) {
+  createProject(repository) {
+    repository.projects.push(
+      { id: '5', name: '1337 kr3w', createdBy: 'rovio', popularity: 10, logoUrl: 'http://lorempixum.com/128/128/technics', isPrivate: false, isJoining: false, hasJoined: true }
+    );
+    this.setState(this.state);
+  },
+  joinProject(repository, project) {
     project.isJoining = true;
     this.setState(this.state);
     setTimeout(() => {
@@ -41,6 +49,7 @@ const App = React.createClass({
         <LocalRepositoriesList
           repositories={this.state.repositories}
           onJoinProject={this.joinProject}
+          onCreateProject={this.createProject}
           />
       </div>
     );
