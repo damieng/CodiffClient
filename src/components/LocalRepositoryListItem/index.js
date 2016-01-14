@@ -9,7 +9,7 @@ const LocalRepositoryListItem = React.createClass({
       name: PropTypes.string.isRequired,
       projects: PropTypes.array.isRequired,
       localPath: PropTypes.string.isRequired,
-      remoteOrigin: PropTypes.string.isRequired
+      origin: PropTypes.string.isRequired
     })
   },
   render() {
@@ -19,7 +19,7 @@ const LocalRepositoryListItem = React.createClass({
     ));
     return (
       <div>
-        <h3>{repository.name} ({repository.remoteOrigin})</h3>
+        <h3>{repository.name} ({repository.origin})</h3>
         {buttons}
         <CreateProjectButton repository={repository} />
       </div>

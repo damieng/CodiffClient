@@ -6,7 +6,7 @@ const LocalRepositoriesList = React.createClass({
   propTypes: {
     repositories: PropTypes.arrayOf(PropTypes.shape({
       localPath: PropTypes.string.isRequired,
-      remoteOrigin: PropTypes.string.isRequired
+      origin: PropTypes.string.isRequired
     })).isRequired,
     onJoinProject: PropTypes.func,
     onCreateProject: PropTypes.func
