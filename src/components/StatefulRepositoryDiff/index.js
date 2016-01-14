@@ -47,15 +47,50 @@ const StatefulRepositoryDiff = React.createClass({
             `             console.log(body);`,
             `         });`
           ]
+        },
+        {
+          path: 'src/foo.js',
+          lines: [
+            `@@ -53,10 +54,13 @@\n`,
+            ` \t\tfiles: {},`,
+            ` \t};`,
+            ` `,
+            `+    var threadId;`,
+            ` \trepositoryWatcher.on('submit', function(diff) {`,
+            `         var diff = repositoryWatcher.getDiff();`,
+            `         var route = '/messages';`,
+            `         console.log('submit', diff);`,
+            `+        diff.threadId = threadId;`,
+            `+        console.log(JSON.stringify(diff));`,
+            `         request({`,
+            `             url: apiPath + route,`,
+            `             method: 'POST',`,
+            `@@ -73,6 +77,7 @@\n`,
+            `                 window.alert('Diff rejected. See console for additional details.');`,
+            `             }`,
+            ` `,
+            `+            threadId = body.threadId;`,
+            `             console.log(response);`,
+            `             console.log(body);`,
+            `         });`
+          ]
         }
       ]
     };
   },
+  onFileChanged(file) {
+    this.state.selectedFile = file;
+    this.setState(this.state);
+  },
   render() {
     return (
-      <div>
-        <RepositoryDiff {...this.state} />
-      </div>);
+      <RepositoryDiff
+        repository={this.state.repository}
+        files={this.state.files}
+        selectedFile={this.state.selectedFile || this.state.files[0]}
+        onFileChanged={this.onFileChanged}
+        />
+      );
   }
 });
 

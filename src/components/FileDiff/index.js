@@ -44,7 +44,6 @@ const FileDiff = React.createClass({
 
     return (
       <div>
-        <h4>{file.path}</h4>
         <div style={this.styles.code}>
           {lines}
         </div>
