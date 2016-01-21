@@ -33,9 +33,7 @@ const FileDiff = React.createClass({
           line[0] === '-' ? 'del' :
           'unchanged';
 
-      if(line[0] === '+' || line[0] === '-') line = line.substr(1);
-
-      if(line.length === 0) line = ' ';
+      if(line[0] === '+' || line[0] === '-') line = ' ' + line.substr(1);
 
       const lineStyle = this.styles.line[operation];
       return (

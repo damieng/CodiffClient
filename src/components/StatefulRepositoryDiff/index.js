@@ -24,6 +24,12 @@ const StatefulRepositoryDiff = React.createClass({
     this.repositoryWatcher = new RepositoryWatcher(this.props.localRepositoryPath);
     this.repositoryWatcher.on('update', (diff) => {
       this.state.files = diff;
+      if(this.state.selectedFile) {
+        const previousFilePath = this.state.selectedFile.path;
+        this.state.selectedFile = this.state.files
+          .filter(f => f.path === previousFilePath)[0];
+      }
+
       this.forceUpdate();
     });
   },
