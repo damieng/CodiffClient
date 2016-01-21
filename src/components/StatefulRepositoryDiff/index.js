@@ -1,96 +1,49 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import RepositoryDiff from '../RepositoryDiff';
+import RepositoryWatcher from '../../git/RepositoryWatcher';
+
+const { string } = PropTypes;
 
 const StatefulRepositoryDiff = React.createClass({
+  propTypes: {
+    localRepositoryPath: string.isRequired
+  },
   getInitialState() {
+    console.log('hey, damieng');
     return {
       repository: {
-        name: 'codiff',
-        origin: 'ssh://some-aws-east-garbage.com/v1/repositories/codiff-client.git',
-        localPath: '/Users/gisenberg/codiff-client'
+        name: this.props.localRepositoryPath,
+        localPath: this.props.localRepositoryPath,
+        origin: 'shut up'
       },
-      files: [
-        {
-          path: 'src/App.js',
-          lines: [
-            `--- \n`,
-            `+++ \n`,
-            `@@ -1,6 +1,7 @@\n`,
-            ` var RepositoryWatcher = require('./repository-watcher.js').RepositoryWatcher;`,
-            ` var request = require('request');`,
-            ` `,
-            `+// @damieng: hey`,
-            ` var app = angular.module('codiff-app', ['ngRoute']);`,
-            ` var repositoryWatcher: RepositoryWatcher;`,
-            ` var userId: string;`,
-            `@@ -53,10 +54,13 @@\n`,
-            ` \t\tfiles: {},`,
-            ` \t};`,
-            ` `,
-            `+    var threadId;`,
-            ` \trepositoryWatcher.on('submit', function(diff) {`,
-            `         var diff = repositoryWatcher.getDiff();`,
-            `         var route = '/messages';`,
-            `         console.log('submit', diff);`,
-            `+        diff.threadId = threadId;`,
-            `+        console.log(JSON.stringify(diff));`,
-            `         request({`,
-            `             url: apiPath + route,`,
-            `             method: 'POST',`,
-            `@@ -73,6 +77,7 @@\n`,
-            `                 window.alert('Diff rejected. See console for additional details.');`,
-            `             }`,
-            ` `,
-            `+            threadId = body.threadId;`,
-            `             console.log(response);`,
-            `             console.log(body);`,
-            `         });`
-          ]
-        },
-        {
-          path: 'src/foo.js',
-          lines: [
-            `@@ -53,10 +54,13 @@\n`,
-            ` \t\tfiles: {},`,
-            ` \t};`,
-            ` `,
-            `+    var threadId;`,
-            ` \trepositoryWatcher.on('submit', function(diff) {`,
-            `         var diff = repositoryWatcher.getDiff();`,
-            `         var route = '/messages';`,
-            `         console.log('submit', diff);`,
-            `+        diff.threadId = threadId;`,
-            `+        console.log(JSON.stringify(diff));`,
-            `         request({`,
-            `             url: apiPath + route,`,
-            `             method: 'POST',`,
-            `@@ -73,6 +77,7 @@\n`,
-            `                 window.alert('Diff rejected. See console for additional details.');`,
-            `             }`,
-            ` `,
-            `+            threadId = body.threadId;`,
-            `             console.log(response);`,
-            `             console.log(body);`,
-            `         });`
-          ]
-        }
-      ]
+      files: [],
     };
+  },
+  componentWillMount() {
+    this.repositoryWatcher = new RepositoryWatcher(this.props.localRepositoryPath);
+    this.repositoryWatcher.on('update', (diff) => {
+      this.state.files = diff;
+      this.forceUpdate();
+    });
   },
   onFileChanged(file) {
     this.state.selectedFile = file;
-    this.setState(this.state);
+    this.forceUpdate();
   },
   render() {
+    if(this.state.files.length === 0)
+      return (<div>Loading...</div>);
+
     return (
-      <RepositoryDiff
-        repository={this.state.repository}
-        files={this.state.files}
-        selectedFile={this.state.selectedFile || this.state.files[0]}
-        onFileChanged={this.onFileChanged}
-        />
-      );
+      <div>
+        <RepositoryDiff
+          repository={this.state.repository}
+          files={this.state.files}
+          selectedFile={this.state.selectedFile || this.state.files[0]}
+          onFileChanged={this.onFileChanged}
+          />
+      </div>);
   }
 });
 

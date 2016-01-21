@@ -11,7 +11,8 @@ const FileDiff = React.createClass({
   },
   styles: {
     code: {
-      fontFamily: 'Consolas, Menlo, Courier, monospace'
+      fontFamily: 'Consolas, Menlo, Courier, monospace',
+      whiteSpace: 'pre'
     },
     line: {
       add: {
@@ -33,6 +34,8 @@ const FileDiff = React.createClass({
           'unchanged';
 
       if(line[0] === '+' || line[0] === '-') line = line.substr(1);
+
+      if(line.length === 0) line = ' ';
 
       const lineStyle = this.styles.line[operation];
       return (

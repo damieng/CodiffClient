@@ -13,17 +13,24 @@ const FileBrowser = React.createClass({
     onFileChanged: func.isRequired
   },
   styles: {
-    active: {
-      backgroundColor: '#ccc'
+    listItem: {
+      active: {
+        backgroundColor: '#ccc'
+      }
+    },
+    container: {
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden'
     }
   },
   render() {
     const { files, selectedFile, onFileChanged } = this.props;
     return (
-      <div>
+      <div style={this.styles.container}>
         {files.map((file, index) => (
           file === selectedFile ?
-            <div key={index} style={this.styles.active}>{file.path}</div> :
+            <div key={index} style={this.styles.listItem.active}>{file.path}</div> :
             <div onClick={() => onFileChanged(file)} key={index}>{file.path}</div>
         ))}
       </div>

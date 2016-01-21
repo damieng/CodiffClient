@@ -8,7 +8,7 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        <StatefulRepositoryDiff />
+        <StatefulRepositoryDiff localRepositoryPath="/Users/gisenberg/git/codiff-react" />
         <StatefulLocalRepositoriesList />
       </div>
     );
