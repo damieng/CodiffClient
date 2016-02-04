@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import RepositoryDiff from '../RepositoryDiff';
+import RepositoryDiff from '../../components/RepositoryDiff';
 import RepositoryWatcher from '../../git/RepositoryWatcher';
 
 const { string } = PropTypes;
@@ -10,7 +10,6 @@ const StatefulRepositoryDiff = React.createClass({
     localRepositoryPath: string.isRequired
   },
   getInitialState() {
-    console.log('hey, damieng');
     return {
       repository: {
         name: this.props.localRepositoryPath,

@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import StatefulRepositoryDiff from './components/StatefulRepositoryDiff';
-import StatefulLocalRepositoriesList from './components/StatefulLocalRepositoriesList';
+import RepositoryDiff from './containers/RepositoryDiff';
+import LocalRepositoriesList from './containers/LocalRepositoriesList';
 
 const App = React.createClass({
   render() {
     return (
       <div>
-        <StatefulRepositoryDiff localRepositoryPath="/Users/gisenberg/git/codiff-react" />
-        <StatefulLocalRepositoriesList />
+        <RepositoryDiff localRepositoryPath="/Users/gisenberg/git/codiff-react" />
+        <LocalRepositoriesList />
       </div>
     );
   }

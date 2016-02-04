@@ -46,12 +46,13 @@ class RepositoryWatcher extends EventEmitter {
                       .toString()
                       .split('\n');
       } catch(err) {
-        console.log(err);
+        console.warn(err);
       }
 
       let diffs;
       switch(status[filePath]) {
         case GIT_STATUS_WT_NEW:
+        case 1: // Seems to happen in a rename, not sure which GIT_STATUS corresponds to this
           diffs = difflib.unifiedDiff('', fileLines, { toFile: filePath, n: 7 });
           break;
         case GIT_STATUS_WT_MODIFIED:
@@ -61,6 +62,7 @@ class RepositoryWatcher extends EventEmitter {
             fileLines, { toFile: filePath, n: 7 });
           break;
         default:
+          console.warn(status[filePath]);
           break;
       }
 
@@ -69,7 +71,7 @@ class RepositoryWatcher extends EventEmitter {
         lines: diffs
       };
     });
-
+    files.filter(f => !f.lines).forEach(f => console.log(f));
     const valueToHash = files.reduce((val, diff) => val + diff.lines.join('\n'), '');
     const sha1Hash = createHash('sha1');
     sha1Hash.update(valueToHash);

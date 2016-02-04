@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import LocalRepositoriesList from '../LocalRepositoriesList';
+import LocalRepositoriesList from '../../components/LocalRepositoriesList';
 
 const StatefulLocalRepositoriesList = React.createClass({
   getInitialState() {
