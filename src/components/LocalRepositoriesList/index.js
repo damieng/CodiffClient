@@ -1,3 +1,7 @@
+import path from 'path';
+import os from 'os';
+import fs from 'fs';
+import git from 'git-utils';
 import React, { PropTypes } from 'react';
 
 import LocalRepositoryListItem from '../LocalRepositoryListItem';
@@ -9,7 +13,9 @@ const LocalRepositoriesList = React.createClass({
       origin: PropTypes.string.isRequired
     })).isRequired,
     onJoinProject: PropTypes.func,
-    onCreateProject: PropTypes.func
+    onCreateProject: PropTypes.func,
+    onLocalRepositoryAdded: PropTypes.func,
+    localRepositorySearchPaths: PropTypes.arrayOf(PropTypes.string)
   },
   childContextTypes: {
     onJoinProject: PropTypes.func,
@@ -27,6 +33,20 @@ const LocalRepositoriesList = React.createClass({
         this.props.onJoinProject(repo, project);
       }
     };
+  },
+  componentWillMount() {
+    this.props.localRepositorySearchPaths.map(repositorySearchPath => {
+      return path.resolve(repositorySearchPath.replace('~', os.homedir()));
+    }).map(repositorySearchPath => {
+      return fs.readdirSync(repositorySearchPath).map(f => path.resolve(repositorySearchPath, f));
+    }).reduce((arr, paths) => {
+      paths.forEach(p => arr.push(p));
+      return arr;
+    }, []).filter(repoPath => {
+      return git.open(repoPath);
+    }).forEach(gitRepo => {
+      this.props.onLocalRepositoryAdded(gitRepo);
+    });
   },
   styles: {
     container: {
