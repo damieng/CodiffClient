@@ -6,9 +6,36 @@ import React, { PropTypes } from 'react';
 
 import LocalRepositoryListItem from '../LocalRepositoryListItem';
 
+const getRemotes = function(git) {
+  const remotes = git.getReferences().remotes.map(remote => {
+    return remote.split('/')[2];
+  }).reduce((p, remote) => {
+    if(p.indexOf(remote) < 0) p.push(remote);
+    return p;
+  }, []).map(remote => {
+    return {
+      remote,
+      url: git.getConfigValue(`remote.${remote}.url`),
+      projects: []
+    };
+  });
+
+  return remotes;
+};
+
+const getOriginUrl = function(git) {
+  const remotes = getRemotes(git);
+  const origin = remotes.filter(r => r.remote === 'origin')[0];
+
+  if(origin)
+    return origin.url;
+};
+
 const LocalRepositoriesList = React.createClass({
   propTypes: {
     repositories: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      projects: PropTypes.array.isRequired,
       localPath: PropTypes.string.isRequired,
       origin: PropTypes.string.isRequired
     })).isRequired,
@@ -42,10 +69,26 @@ const LocalRepositoriesList = React.createClass({
     }).reduce((arr, paths) => {
       paths.forEach(p => arr.push(p));
       return arr;
-    }, []).filter(repoPath => {
-      return git.open(repoPath);
-    }).forEach(gitRepo => {
-      this.props.onLocalRepositoryAdded(gitRepo);
+    }, []).map((repoPath) => {
+      return {
+        localPath: repoPath,
+        git: git.open(repoPath)
+      };
+    }).filter(repo => {
+      return repo.git;
+    }).map((repo, index) => {
+      const origin = getOriginUrl(repo.git);
+      const pathParts = repo.localPath.split('/');
+      const name = pathParts[pathParts.length - 1];
+      return {
+        id: index,
+        name,
+        projects: [],
+        localPath: repo.localPath,
+        origin
+      };
+    }).filter((repo) => repo.origin).forEach(repo => {
+      this.props.onLocalRepositoryAdded(repo);
     });
   },
   styles: {

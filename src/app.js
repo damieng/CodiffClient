@@ -1,43 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider, connect } from 'react-redux';
+
+import { createStore, bindActionCreators } from 'redux';
 
 import LocalRepositoriesList from './components/LocalRepositoriesList';
-import { createStore } from 'redux';
-import reducer from './reducers/LocalRepositories';
+import reducer from './reducers';
 
-const store = createStore(reducer);
+import { addRepository } from './reducers/Repositories';
 
-const App = React.createClass({
-  createProject(repository) {
-    store.dispatch({ type: 'CREATE_PROJECT', repository });
-  },
-  joinProject(repository, project) {
-    store.dispatch({ type: 'JOIN_PROJECT', repository, project });
-  },
-  localRepositoryAdded(repository) {
-    console.log(repository);
-    store.dispatch({ type: 'ADD_REPOSITORY', repository });
-  },
+let App = React.createClass({
   render() {
     return (
       <div>
         <LocalRepositoriesList
-          repositories={store.getState()}
+          repositories={this.props.repositories}
           localRepositorySearchPaths={['~/git']}
-          onJoinProject={this.joinProject}
-          onCreateProject={this.createProject}
-          onLocalRepositoryAdded={this.localRepositoryAdded}
+          onLocalRepositoryAdded={this.props.addRepository}
           />
+        <pre>{JSON.stringify(this.props, null, 2)}</pre>
       </div>
     );
   }
 });
 
-function render() {
-  ReactDOM.render(
-    <App />,
-    document.getElementById('content'));
-}
+App = connect(
+  (state) => { return { repositories: state.repositories }; },
+  { addRepository }
+)(App);
 
-render();
-store.subscribe(render);
+const store = createStore(reducer);
+ReactDOM.render(
+  (<Provider store={store}>
+    <App />
+  </Provider>),
+  document.getElementById('content'));

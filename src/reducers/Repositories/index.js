@@ -6,3 +6,7 @@ export default function (state = [], action) {
       return state;
   }
 }
+
+export function addRepository(repository) {
+  return { type: 'ADD_REPOSITORY', repository };
+}
