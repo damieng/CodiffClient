@@ -6,12 +6,13 @@ import { createStore, applyMiddleware, bindActionCreators } from 'redux';
 
 import LocalRepositoriesList from './components/LocalRepositoriesList';
 import reducer from './reducers';
-import { addRepository } from './reducers/Repositories';
+import { addRepository, createProject } from './reducers/Repositories';
 
 let App = React.createClass({
   propTypes: {
     repositories: PropTypes.array,
     addRepository: PropTypes.func,
+    createProject: PropTypes.func,
   },
   render() {
     return (
@@ -20,6 +21,7 @@ let App = React.createClass({
           repositories={this.props.repositories}
           localRepositorySearchPaths={['~/git']}
           onLocalRepositoryAdded={this.props.addRepository}
+          onCreateProject={this.props.createProject}
           />
       </div>
     );
@@ -29,7 +31,10 @@ let App = React.createClass({
 App = connect(
   (state) => { return { repositories: state.repositories }; },
     (dispatch) => {
-      return { addRepository: bindActionCreators(addRepository, dispatch) };
+      return {
+        addRepository: bindActionCreators(addRepository, dispatch),
+        createProject: bindActionCreators(createProject, dispatch)
+      };
     }
 )(App);
 
