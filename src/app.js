@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { PropTypes }from 'react';
 import ReactDOM from 'react-dom';
+import thunk from 'redux-thunk';
 import { Provider, connect } from 'react-redux';
-
-import { createStore, bindActionCreators } from 'redux';
+import { createStore, applyMiddleware, bindActionCreators } from 'redux';
 
 import LocalRepositoriesList from './components/LocalRepositoriesList';
 import reducer from './reducers';
-
 import { addRepository } from './reducers/Repositories';
 
 let App = React.createClass({
+  propTypes: {
+    repositories: PropTypes.array,
+    addRepository: PropTypes.func,
+  },
   render() {
     return (
       <div>
@@ -18,7 +21,6 @@ let App = React.createClass({
           localRepositorySearchPaths={['~/git']}
           onLocalRepositoryAdded={this.props.addRepository}
           />
-        <pre>{JSON.stringify(this.props, null, 2)}</pre>
       </div>
     );
   }
@@ -26,10 +28,12 @@ let App = React.createClass({
 
 App = connect(
   (state) => { return { repositories: state.repositories }; },
-  { addRepository }
+    (dispatch) => {
+      return { addRepository: bindActionCreators(addRepository, dispatch) };
+    }
 )(App);
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(thunk));
 ReactDOM.render(
   (<Provider store={store}>
     <App />

@@ -8,5 +8,7 @@ export default function (state = [], action) {
 }
 
 export function addRepository(repository) {
-  return { type: 'ADD_REPOSITORY', repository };
+  return (dispatch) => {
+    dispatch({ type: 'ADD_REPOSITORY', repository });
+  };
 }
