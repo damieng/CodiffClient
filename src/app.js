@@ -8,6 +8,10 @@ import { Router, Route, hashHistory } from 'react-router';
 import reducer from './reducers';
 import Setup from './containers/Setup';
 import Home from './containers/Home';
+import Configuration from './config';
+
+const config = new Configuration();
+console.log(config.configPath);
 
 const store = createStore(reducer, applyMiddleware(thunk));
 ReactDOM.render(

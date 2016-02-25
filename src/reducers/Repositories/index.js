@@ -1,3 +1,5 @@
+import { subscribeToProject } from '../Projects';
+
 export default function (state = [], action) {
   switch(action.type) {
     case 'ADD_REPOSITORY':
@@ -72,8 +74,13 @@ export function createProject(repository, project) {
       };
 
       dispatch({ type: 'CREATED_PROJECT', payload: { repository, project: newProject } });
+      subscribeToProject(repository, newProject)(dispatch);
     });
   };
+}
+
+export function joinProject(repository, project) {
+  return subscribeToProject(repository, project);
 }
 
 export function addRepository(repository) {
