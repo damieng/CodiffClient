@@ -1,4 +1,4 @@
-import Configuration from '../../config/';
+import Configuration from '../config/';
 const config = new Configuration();
 
 export default function (state = config.projects, action) {

@@ -1,4 +1,4 @@
-import { subscribeToProject } from '../Projects';
+import { subscribeToProject } from './Projects';
 
 export default function (state = [], action) {
   switch(action.type) {
@@ -61,7 +61,6 @@ export function createProject(repository, project) {
     }).then((response) => {
       return response.json();
     }).then((createdProject) => {
-      console.log(createdProject);
       const newProject = {
         id: createdProject.id,
         name: createdProject.name,
