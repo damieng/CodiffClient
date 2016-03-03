@@ -11,8 +11,6 @@ import Home from './containers/Home';
 import Configuration from './config';
 
 const config = new Configuration();
-console.log(config.configPath);
-
 const Loading = () => {
   return (<div>Loading...</div>);
 }

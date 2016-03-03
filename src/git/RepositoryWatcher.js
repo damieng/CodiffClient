@@ -16,7 +16,7 @@ class RepositoryWatcher extends EventEmitter {
     this.repositoryPath = repositoryPath;
     this.previousHash = '';
     this.watchTimer = 0;
-    this.pollIntervalMs = 1500;
+    this.pollIntervalMs = 10000;
 
     this.start();
   }
