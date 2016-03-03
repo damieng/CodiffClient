@@ -1,4 +1,7 @@
+import Configuration from '../config/';
 import { subscribeToProject } from './Projects';
+
+const config = new Configuration();
 
 export default function (state = [], action) {
   switch(action.type) {
@@ -51,7 +54,7 @@ export function createProject(repository, project) {
       origin: repository.origin
     };
 
-    fetch('https://codiff-api.intracia.com/v1/projects', {
+    fetch(`${config.apiUrl}/projects`, {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -85,7 +88,7 @@ export function joinProject(repository, project) {
 export function addRepository(repository) {
   return (dispatch) => {
     dispatch({ type: 'ADD_REPOSITORY', repository });
-    fetch(`https://codiff-api.intracia.com/v1/projects/search?origin=${encodeURIComponent(repository.origin)}`)
+    fetch(`${config.apiUrl}/projects/search?origin=${encodeURIComponent(repository.origin)}`)
       .then((response) => {
         return response.json();
       }).then((results) => {

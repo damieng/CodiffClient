@@ -21,6 +21,10 @@ export default class Configuration {
     return this.get('projects') || [];
   }
 
+  get apiUrl() {
+    return this.get('apiUrl') || 'https://codiff-api.intracia.com/v1';
+  }
+
   get(key) {
     return this.values[key];
   }
