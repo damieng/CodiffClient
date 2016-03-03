@@ -13,7 +13,7 @@ import Configuration from './config';
 const config = new Configuration();
 const Loading = () => {
   return (<div>Loading...</div>);
-}
+};
 
 const store = createStore(reducer, applyMiddleware(thunk));
 ReactDOM.render(

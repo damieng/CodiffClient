@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RepositoryWatcher from '../git/RepositoryWatcher';
-import { diffReceived } from '../reducers/Diffs';
+import { diffReceived } from '../reducers/Projects';
 
 const RepositoryWatcherComponent = React.createClass({
   propTypes: {
