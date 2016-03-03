@@ -13,12 +13,23 @@ import Configuration from './config';
 const config = new Configuration();
 console.log(config.configPath);
 
+const Loading = () => {
+  return (<div>Loading...</div>);
+}
+
 const store = createStore(reducer, applyMiddleware(thunk));
 ReactDOM.render(
   (<Provider store={store}>
     <Router history={hashHistory}>
-      <Route path="/" component={Setup} />
+      <Route path="/" component={Loading} />
+      <Route path="/setup" component={Setup} />
       <Route path="/home" component={Home} />
     </Router>
   </Provider>),
   document.getElementById('content'));
+
+if(config.projects.length === 0) {
+  hashHistory.push('/setup');
+} else {
+  hashHistory.push('/home');
+}

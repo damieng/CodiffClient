@@ -15,7 +15,10 @@ export default class Configuration {
     }
 
     this.values = require(this.configPath);
-    console.log(this.values);
+  }
+
+  get projects() {
+    return this.get('projects') || [];
   }
 
   get(key) {
@@ -23,7 +26,6 @@ export default class Configuration {
   }
 
   set(key, value) {
-    console.log(key, value);
     this.values[key] = value;
     this.commit();
   }
