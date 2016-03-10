@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { Router, Route, hashHistory } from 'react-router';
+import { persistStore, autoRehydrate } from 'redux-persist';
 
 import reducer from './reducers';
 import Setup from './containers/Setup';
@@ -15,7 +16,17 @@ const Loading = () => {
   return (<div>Loading...</div>);
 };
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer, applyMiddleware(thunk), autoRehydrate());
+persistStore(store, { blacklist: ['repositories'] }, () => {
+  const state = store.getState();
+  console.log(state);
+  if(state.projects.length === 0) {
+    hashHistory.push('/setup');
+  } else {
+    hashHistory.push('/home');
+  }
+});
+
 ReactDOM.render(
   (<Provider store={store}>
     <Router history={hashHistory}>
@@ -26,8 +37,3 @@ ReactDOM.render(
   </Provider>),
   document.getElementById('content'));
 
-if(config.projects.length === 0) {
-  hashHistory.push('/setup');
-} else {
-  hashHistory.push('/home');
-}

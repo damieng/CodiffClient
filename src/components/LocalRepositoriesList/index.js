@@ -61,7 +61,7 @@ const LocalRepositoriesList = React.createClass({
       }
     };
   },
-  componentWillMount() {
+  componentDidMount() {
     this.props.localRepositorySearchPaths.map(repositorySearchPath => {
       return path.resolve(repositorySearchPath.replace('~', os.homedir()));
     }).map(repositorySearchPath => {

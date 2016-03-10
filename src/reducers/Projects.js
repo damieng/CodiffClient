@@ -1,7 +1,7 @@
 import Configuration from '../config/';
 const config = new Configuration();
 
-export default function (state = config.projects, action) {
+export default function (state = [], action) {
   switch(action.type) {
     case 'DIFF_RECEIVED': {
       const { project, diff } = action.payload;
@@ -10,7 +10,7 @@ export default function (state = config.projects, action) {
           return {
             ...p,
             diff
-          }
+          };
         }
 
         return p;
@@ -25,7 +25,7 @@ export default function (state = config.projects, action) {
       return newState;
     }
     case 'CREATE_THREAD': {
-      return state
+      return state;
     }
     default:
       return state;
