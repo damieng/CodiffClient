@@ -9,9 +9,7 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import reducer from './reducers';
 import Setup from './containers/Setup';
 import Home from './containers/Home';
-import Configuration from './config';
 
-const config = new Configuration();
 const Loading = () => {
   return (<div>Loading...</div>);
 };
@@ -20,7 +18,7 @@ const store = createStore(reducer, applyMiddleware(thunk), autoRehydrate());
 persistStore(store, { blacklist: ['repositories'] }, () => {
   const state = store.getState();
   console.log(state);
-  if(state.projects.length === 0) {
+  if(state.projects.projects.length === 0) {
     hashHistory.push('/setup');
   } else {
     hashHistory.push('/home');
@@ -36,4 +34,3 @@ ReactDOM.render(
     </Router>
   </Provider>),
   document.getElementById('content'));
-

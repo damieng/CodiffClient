@@ -26,7 +26,7 @@ const RepositoryWatcherComponent = React.createClass({
 });
 
 export default connect(
-  (state) => { return { projects: state.projects }; },
+  (state) => { return { projects: state.projects.projects }; },
   (dispatch) => {
     return {
       diffReceived: bindActionCreators(diffReceived, dispatch)

@@ -2,18 +2,22 @@ import React, { PropTypes } from 'react';
 
 const ProjectView = React.createClass({
   propTypes: {
-    thread: PropTypes.object
+    projects: PropTypes.array,
+    selectedProjectIndex: PropTypes.number
   },
   render() {
-    if(!this.props.thread || !this.props.thread.messages) {
-      return (<div>Nothing here!</div>);
+    const { projects, selectedProjectIndex } = this.props;
+    const selectedProject = projects[selectedProjectIndex];
+
+    console.log(selectedProjectIndex);
+    if(!selectedProject || !selectedProject.messages) {
+      return (<pre>{JSON.stringify(this.props, null, 2)}</pre>);
     }
 
-    const { messages } = this.props.thread;
     return (
       <div>
-        { messages.map((message, index) => {
-          return (<div key={index}>{message}</div>);
+        {selectedProject.messages.map((message, index) => {
+          return (<pre key={index}>{JSON.stringify(message, null, 2)}</pre>);
         })}
       </div>
     );
