@@ -4,14 +4,15 @@ const config = new Configuration();
 export default function (state = { projects: [], selectedProjectIndex: 0 }, action) {
   switch(action.type) {
     case 'DIFF_RECEIVED': {
-      const { project, diff } = action.payload;
+      const { project, delta } = action.payload;
       const nextState = {
         ...state,
         projects: state.projects.map(p => {
           if(p.id === project.id) {
             return {
               ...p,
-              diff
+              diff: delta.diff,
+              diffHash: delta.hash
             };
           }
 
@@ -85,7 +86,12 @@ export function getMessagesForProject(project, since) {
     }).then((response) => {
       return response.json();
     }).then((messages) => {
-      messages = messages.items.map(m => ({ id: m.message_id, from: m.sent_by, text: m.body, files: m.files }));
+      messages = messages.items.map(m => ({
+        id: m.message_id,
+        from: m.sent_by,
+        text: m.body,
+        files: m.files
+      }));
       dispatch({ type: 'LOADED_MESSAGES', payload: { project, messages } });
     });
   };
@@ -97,15 +103,15 @@ export function changeSelectedProjectIndex(newIndex) {
   };
 }
 
-export function diffReceived(project, diff) {
+export function diffReceived(project, delta) {
   return (dispatch) => {
     console.log('diff received', project);
-    dispatch({ type: 'DIFF_RECEIVED', payload: { project, diff } });
+    dispatch({ type: 'DIFF_RECEIVED', payload: { project, delta } });
 
     const createMessagePayload = {
       body: 'Created programmatically.',
       sent_by: 'gisenberg',
-      files: diff.map(f => {
+      files: delta.diff.map(f => {
         return {
           filename: f.path,
           contents: f.lines.join('\n')

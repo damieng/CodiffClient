@@ -7,14 +7,16 @@ import { diffReceived } from '../reducers/Projects';
 const RepositoryWatcherComponent = React.createClass({
   propTypes: {
     projects: PropTypes.array,
-    diffReceived: PropTypes.func
+    diffReceived: PropTypes.func,
   },
   componentWillMount() {
     const { projects } = this.props;
     this.watchers = projects.map(project => {
       const watcher = new RepositoryWatcher(project.repository.localPath);
-      watcher.on('update', (diff) => {
-        this.props.diffReceived(project, diff);
+      watcher.on('update', (delta) => {
+        if(delta.hash === project.diffHash) return;
+        console.log('diffReceived', delta.hash, project.diffHash);
+        this.props.diffReceived(project, delta);
       });
 
       return watcher;
@@ -25,11 +27,16 @@ const RepositoryWatcherComponent = React.createClass({
   }
 });
 
-export default connect(
-  (state) => { return { projects: state.projects.projects }; },
-  (dispatch) => {
-    return {
-      diffReceived: bindActionCreators(diffReceived, dispatch)
-    };
-  }
-)(RepositoryWatcherComponent);
+const mapStateToProps = (state) => {
+  return {
+    projects: state.projects.projects
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    diffReceived: bindActionCreators(diffReceived, dispatch)
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RepositoryWatcherComponent);

@@ -30,7 +30,7 @@ class RepositoryWatcher extends EventEmitter {
     if(!this.shouldSendDiff(delta))
       return;
 
-    this.emit('update', delta.diff);
+    this.emit('update', delta);
     this.previousHash = delta.hash;
   }
 
