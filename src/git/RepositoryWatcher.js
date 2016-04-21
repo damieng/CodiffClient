@@ -37,6 +37,7 @@ class RepositoryWatcher extends EventEmitter {
   getDelta() {
     const repository = git.open(this.repositoryPath);
     const status = repository.getStatus();
+    const recipients = [];
 
     const files = Object.keys(status).map(filePath => {
       let fileLines;
@@ -66,26 +67,44 @@ class RepositoryWatcher extends EventEmitter {
           break;
       }
 
+      const possibleRecipients = diffs
+        .map(line => line.match(/(\/\/|\*).@\w+:/g))
+        .filter(match => !!match)
+        .map(match => {
+          const text = match[0];
+          const atIndex = text.indexOf('@');
+          const colonIndex = text.indexOf(':');
+          const usernameLength = (colonIndex) - (atIndex + 1);
+          const username = text.substr(atIndex + 1, usernameLength);
+          return username;
+        });
+
+      possibleRecipients.forEach(recipient => {
+        if(recipients.indexOf(recipient) > -1) return;
+        recipients.push(recipient);
+      });
+
       return {
         path: filePath,
         lines: diffs
       };
     });
-    files.filter(f => !f.lines).forEach(f => console.log(f));
+
     const valueToHash = files.reduce((val, diff) => val + diff.lines.join('\n'), '');
     const sha1Hash = createHash('sha1');
     sha1Hash.update(valueToHash);
     const hash = sha1Hash.digest().toString('hex');
 
-
+    console.log(recipients);
     return {
       hash,
+      recipients,
       diff: files
     };
   }
 
   shouldSendDiff(delta) {
-    return this.previousHash !== delta.hash;
+    return this.previousHash !== delta.hash && delta.recipients.length > 0;
   }
 }
 
