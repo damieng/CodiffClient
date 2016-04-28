@@ -1,7 +1,8 @@
 {
   "name": "codiff-react",
   "version": "1.0.0",
-  "description": "",
+  "description": "CoDiff",
+  "repository": "ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/codiff-client",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +14,10 @@
   "devDependencies": {
     "electron-prebuilt-compile": "^0.37.5",
     "eslint": "^2.8.0",
-    "eslint-config-airbnb": "^8.0.0"
+    "eslint-config-airbnb": "^8.0.0",
+    "eslint-plugin-import": "^1.6.0",
+    "eslint-plugin-jsx-a11y": "^1.0.3",
+    "eslint-plugin-react": "^5.0.1"
   },
   "dependencies": {
     "difflib": "^0.2.4",
@@ -21,7 +25,7 @@
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
-    "react-router": "^2.0.0",
+    "react-router": "^2.3.0",
     "redux": "^3.5.2",
     "redux-persist": "^2.0.1",
     "redux-thunk": "^2.0.1"
