@@ -11,22 +11,19 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron-prebuilt-compile": "^0.36.1",
-    "eslint": "^1.10.3",
-    "eslint-config-airbnb": "^3.1.0",
-    "eslint-plugin-react": "^3.14.0",
-    "redux-devtools": "^3.1.0"
+    "electron-prebuilt-compile": "^0.37.5",
+    "eslint": "^2.8.0",
+    "eslint-config-airbnb": "^8.0.0"
   },
   "dependencies": {
     "difflib": "^0.2.4",
     "git-utils": "^4.1.0",
-    "react": "^0.14.6",
-    "react-dom": "^0.14.6",
-    "react-redux": "^4.2.1",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-redux": "^4.4.5",
     "react-router": "^2.0.0",
-    "redux": "^3.2.1",
+    "redux": "^3.5.2",
     "redux-persist": "^2.0.1",
-    "redux-thunk": "^1.0.3",
-    "request": "^2.69.0"
+    "redux-thunk": "^2.0.1"
   }
 }
