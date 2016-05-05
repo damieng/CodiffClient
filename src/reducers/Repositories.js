@@ -54,11 +54,13 @@ export function createProject(repository, project) {
       origin: repository.origin
     };
 
+    console.log(config.authToken);
     fetch(`${config.apiUrl}/projects`, {
       method: 'post',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${config.authToken}`
       },
       body: JSON.stringify(createProjectPayload)
     }).then((response) => {

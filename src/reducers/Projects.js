@@ -76,11 +76,11 @@ export function getMessagesForProject(project, since) {
     const sinceQuery = (since && since.toIsoString()) || 0;
     const messagesUri =
       `${config.apiUrl}/project/${project.project.id}/messages?since=${sinceQuery}`;
-      console.log(messagesUri);
     fetch(messagesUri, {
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${config.authToken}`
       }
     }).then((response) => {
       return response.json();
@@ -129,7 +129,8 @@ export function diffReceived(project, delta) {
       method: 'post',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${config.authToken}`
       },
       body: JSON.stringify(createMessagePayload),
     }).then((response) => {

@@ -12,7 +12,11 @@ app.on('window-all-closed', function windowAllClosed() {
 });
 
 app.on('ready', function appReady() {
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 720
+  });
+
   mainWindow.loadURL('file://' + __dirname + '/index.html');
   mainWindow.webContents.openDevTools();
 

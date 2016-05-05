@@ -18,14 +18,25 @@ const Loading = () => {
 };
 
 const store = createStore(reducer, applyMiddleware(thunk), autoRehydrate());
-persistStore(store, { blacklist: ['repositories'] }, () => {
+persistStore(store, { blacklist: ['repositories', 'user'] }, () => {
   const state = store.getState();
-  if (!state.user) {
+  if (!state.user.token) {
     hashHistory.push('/login');
   } else if (state.projects.projects.length === 0) {
     hashHistory.push('/setup');
   } else {
     hashHistory.push('/home');
+  }
+});
+
+store.subscribe(() => {
+  const state = store.getState();
+  if (window.location.hash.indexOf('#/login') > -1 && state.user.token) {
+    if (state.projects.projects.length === 0) {
+      hashHistory.push('/setup');
+    } else {
+      hashHistory.push('/home');
+    }
   }
 });
 

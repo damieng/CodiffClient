@@ -21,6 +21,10 @@ export default class Configuration {
     return this.get('projects') || [];
   }
 
+  get authToken() {
+    return this.get('authToken');
+  }
+
   get apiUrl() {
     return this.get('apiUrl') || 'https://codiff-api.intracia.com/v1';
   }
