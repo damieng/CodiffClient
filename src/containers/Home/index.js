@@ -16,22 +16,17 @@ const Home = React.createClass({
     onSelectedProjectIndexChanged: func,
     getMessagesForProject: func
   },
-  componentDidMount() {
-    console.log('componentDidMount');
-  },
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.projects.projects.length);
-    if(this.props.projects.projects.length > 0) return;
+    if (this.props.projects.projects.length > 0) return;
     const projectView = nextProps.projects;
     const { projects, selectedProjectIndex } = projectView;
 
     const activeProject = projects[selectedProjectIndex];
-    console.log('componentWillReceiveProps');
     this.props.getMessagesForProject(activeProject);
   },
   render() {
     const { projects, selectedProjectIndex, onSelectedProjectIndexChanged } = this.props;
-    if(projects.projects.length === 0) return (<div>Nothing here!</div>);
+    if (projects.projects.length === 0) return (<div>Nothing here!</div>);
     return (
       <div>
         <ProjectViewer

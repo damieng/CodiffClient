@@ -74,10 +74,9 @@ export function getMessagesForProject(project, since) {
   return (dispatch) => {
     dispatch({ type: 'LOADING_MESSAGES', payload: { project } });
     const sinceQuery = (since && since.toIsoString()) || 0;
-    console.log(project);
     const messagesUri =
       `${config.apiUrl}/project/${project.project.id}/messages?since=${sinceQuery}`;
-    console.log(messagesUri);
+      console.log(messagesUri);
     fetch(messagesUri, {
       headers: {
         Accept: 'application/json',
@@ -105,7 +104,6 @@ export function changeSelectedProjectIndex(newIndex) {
 
 export function diffReceived(project, delta) {
   return (dispatch) => {
-    console.log('diff received', project);
     dispatch({ type: 'DIFF_RECEIVED', payload: { project, delta } });
 
     const createMessagePayload = {
@@ -126,9 +124,7 @@ export function diffReceived(project, delta) {
         };
       })
     };
-    console.log(createMessagePayload);
     const createMessageUri = `${config.apiUrl}/project/${project.project.id}/messages`;
-    console.log(createMessageUri);
     fetch(createMessageUri, {
       method: 'post',
       headers: {
@@ -138,8 +134,6 @@ export function diffReceived(project, delta) {
       body: JSON.stringify(createMessagePayload),
     }).then((response) => {
       return response.json();
-    }).then((createdMessage) => {
-      console.log(createdMessage);
     });
   };
 }

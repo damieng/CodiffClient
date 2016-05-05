@@ -5,12 +5,12 @@ import fs from 'fs';
 export default class Configuration {
   constructor() {
     const configDir = path.join(remote.app.getPath('appData'), 'Codiff');
-    if(!fs.existsSync(configDir)) {
+    if (!fs.existsSync(configDir)) {
       fs.mkdirSync(configDir);
     }
 
     this.configPath = path.join(configDir, 'config.json');
-    if(!fs.existsSync(this.configPath)) {
+    if (!fs.existsSync(this.configPath)) {
       fs.writeFileSync(this.configPath, JSON.stringify({}, null, 2));
     }
 
@@ -23,6 +23,10 @@ export default class Configuration {
 
   get apiUrl() {
     return this.get('apiUrl') || 'https://codiff-api.intracia.com/v1';
+  }
+
+  get loginUrl() {
+    return `${this.apiUrl}/login/github`;
   }
 
   get(key) {

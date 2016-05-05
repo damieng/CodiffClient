@@ -95,7 +95,6 @@ class RepositoryWatcher extends EventEmitter {
     sha1Hash.update(valueToHash);
     const hash = sha1Hash.digest().toString('hex');
 
-    console.log(recipients);
     return {
       hash,
       recipients,

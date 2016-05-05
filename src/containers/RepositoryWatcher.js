@@ -14,8 +14,7 @@ const RepositoryWatcherComponent = React.createClass({
     this.watchers = projects.map(project => {
       const watcher = new RepositoryWatcher(project.repository.localPath);
       watcher.on('update', (delta) => {
-        if(delta.hash === project.diffHash) return;
-        console.log('diffReceived', delta.hash, project.diffHash);
+        if (delta.hash === project.diffHash) return;
         this.props.diffReceived(project, delta);
       });
 

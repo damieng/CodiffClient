@@ -7,8 +7,11 @@ import { Router, Route, hashHistory } from 'react-router';
 import { persistStore, autoRehydrate } from 'redux-persist';
 
 import reducer from './reducers';
-import Setup from './containers/Setup';
-import Home from './containers/Home';
+import {
+  Setup,
+  Home,
+  Login
+} from './containers';
 
 const Loading = () => {
   return (<div>Loading...</div>);
@@ -17,8 +20,9 @@ const Loading = () => {
 const store = createStore(reducer, applyMiddleware(thunk), autoRehydrate());
 persistStore(store, { blacklist: ['repositories'] }, () => {
   const state = store.getState();
-  console.log(state);
-  if(state.projects.projects.length === 0) {
+  if (!state.user) {
+    hashHistory.push('/login');
+  } else if (state.projects.projects.length === 0) {
     hashHistory.push('/setup');
   } else {
     hashHistory.push('/home');
@@ -29,6 +33,7 @@ ReactDOM.render(
   (<Provider store={store}>
     <Router history={hashHistory}>
       <Route path="/" component={Loading} />
+      <Route path="/login" component={Login} />
       <Route path="/setup" component={Setup} />
       <Route path="/home" component={Home} />
     </Router>

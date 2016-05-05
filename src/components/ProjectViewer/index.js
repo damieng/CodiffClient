@@ -9,8 +9,7 @@ const ProjectView = React.createClass({
     const { projects, selectedProjectIndex } = this.props;
     const selectedProject = projects[selectedProjectIndex];
 
-    console.log(selectedProjectIndex);
-    if(!selectedProject || !selectedProject.messages) {
+    if (!selectedProject || !selectedProject.messages) {
       return (<pre>{JSON.stringify(this.props, null, 2)}</pre>);
     }
 

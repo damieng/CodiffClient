@@ -1,6 +1,7 @@
 {
   "extends": "airbnb",
   "rules": {
+    "arrow-body-style": 0,
     "comma-dangle": 0,
     "curly": 0,
     "no-console": 0,
@@ -8,6 +9,7 @@
     "space-after-keywords": 0,
     "react/jsx-no-bind": 0,
     "react/prefer-es6-class": 0,
+    "react/prefer-stateless-function": 0,
     "react/jsx-closing-bracket-location": 0
   },
   "ecmaFeatures": {
