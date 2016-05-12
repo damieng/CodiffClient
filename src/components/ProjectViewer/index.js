@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import FileDiff from '../FileDiff';
 
 const ProjectView = React.createClass({
   propTypes: {
@@ -15,8 +16,34 @@ const ProjectView = React.createClass({
 
     return (
       <div>
+        <h3>{selectedProject.project.name}</h3>
         {selectedProject.messages.map((message, index) => {
-          return (<pre key={index}>{JSON.stringify(message, null, 2)}</pre>);
+          return (
+            <div key={index} className="panel panel-default">
+              <div className="panel-heading">
+                {message.from}
+              </div>
+              <div className="panel-body">
+                <p>
+                  {message.text}
+                </p>
+                {message.files.map((file, fileIndex) => {
+                  const { filename, contents } = file;
+                  const fileObj = {
+                    path: filename,
+                    lines: contents.split('\n')
+                  };
+
+                  return (
+                    <div key={fileIndex}>
+                      <h4>{filename}</h4>
+                      <FileDiff file={fileObj} />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            );
         })}
       </div>
     );
