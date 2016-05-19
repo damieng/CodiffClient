@@ -1,7 +1,5 @@
+/* eslint-disable prefer-arrow-callback */
 import { app, BrowserWindow } from 'electron';
-// const electron = require('electron');
-// const app = electron.app;  // Module to control application life.
-// const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 
 let mainWindow = null;
 
@@ -17,7 +15,7 @@ app.on('ready', function appReady() {
     height: 720
   });
 
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  mainWindow.loadURL(`file://${__dirname}/index.html`);
   mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function appClosed() {
